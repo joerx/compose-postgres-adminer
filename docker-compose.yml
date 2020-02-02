@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+
+  nginx:
+    image: nginx:1.17.2-alpine
+    ports: 
+      - "8080:8080"
+    networks:
+      - backend
+    volumes:
+      - "./conf/nginx-default.conf:/etc/nginx/conf.d/default.conf"
+      
+  postgres:
+    image: postgres:9.4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      DB_APP_NAME: ${DB_APP_NAME:-myapp}
+      DB_APP_PASSWORD: ${DB_APP_PASSWORD:-default}
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+      - "./postgres/initdb.d:/docker-entrypoint-initdb.d"
+    ports:
+      - "5432:5432"
+    networks:
+      - backend
+
+  adminer:
+    image: adminer:4.7
+    networks:
+      - backend
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - "./conf/adminer-login-servers.php:/var/www/html/plugins-enabled/login-servers.php"
+
+networks:
+  backend:
+
+volumes:
+  db-data:
