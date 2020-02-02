@@ -10,7 +10,7 @@ Using the default app database name and password:
 docker-compose up
 ```
 
-Database name will be `myapp`, database password `default`. Admin user/password will be `postgres`/`postgres`
+Database name will be `myapp`, database password `default`. Admin user/password will be `postgres`/`postgres`. You can access the management UI via [localhost:8080](http://localhost:8080)
 
 To customize the app database, set the `DB_APP_NAME` and `DB_APP_PASSWORD` variables:
 
